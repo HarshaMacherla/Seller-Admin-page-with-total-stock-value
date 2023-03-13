@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form>
+      <label for="sellingPrice">Selling Price:</label>
+      <input type="number" id="sellingPrice" name="price" />
+      <label for="productName">Product Name:</label>
+      <input type="text" id="productName" name="product" />
+      <input type="button" id="save" value="Add Product" />
+    </form>
+    <h1>Products</h1>
+    <ul id="listItems"></ul>
+    <h3>
+      Total Value Worth of Products:
+      <span style="font-weight: normal" id="displayPrice"></span>
+    </h3>
+    <script src="scipt.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>
+  </body>
+</html>
