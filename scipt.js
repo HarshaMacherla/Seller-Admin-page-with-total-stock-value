@@ -1,19 +1,20 @@
 let totalPrice = 0;
 
-document.addEventListener("DOMContentLoaded", () => {
-  axios
-    .get("https://crudcrud.com/api/e5b80007c4ff40febfa935b7170b50b6/SellerData")
-    .then((payload) => {
-      let data = payload.data;
-      data.forEach((item) => {
-        showOnWebpage(item);
-      });
-    })
-    .catch((err) => console.log(err));
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const payload = await axios.get(
+      "https://crudcrud.com/api/4e52f2f5115c435f81ed5f988298fa4c/SellerData"
+    );
+    const userData = payload.data;
+    userData.forEach((data) => showOnWebpage(data));
+  } catch (err) {
+    console.log(err);
+  }
 });
 
-document.getElementById("save").addEventListener("click", function (event) {
+document.getElementById("save").addEventListener("click", async (event) => {
   event.preventDefault();
+
   let price = document.getElementById("sellingPrice").value;
   let product = document.getElementById("productName").value;
 
@@ -21,18 +22,19 @@ document.getElementById("save").addEventListener("click", function (event) {
     price,
     product,
   };
-  axios
-    .post(
-      "https://crudcrud.com/api/e5b80007c4ff40febfa935b7170b50b6/SellerData",
+
+  try {
+    let payload = await axios.post(
+      "https://crudcrud.com/api/4e52f2f5115c435f81ed5f988298fa4c/SellerData",
       myObj
-    )
-    .then((data) => {
-      showOnWebpage(data.data);
-    })
-    .catch((err) => console.log(err));
+    );
+    showOnWebpage(payload.data);
+  } catch (err) {
+    console.log(err);
+  }
 });
 
-function showOnWebpage(myObj) {
+const showOnWebpage = (myObj) => {
   let list = document.getElementById("listItems");
   let item = document.createElement("li");
   let text = document.createTextNode(`${myObj.price} - ${myObj.product} `);
@@ -46,14 +48,16 @@ function showOnWebpage(myObj) {
   list.appendChild(item);
   document.getElementById("displayPrice").innerHTML = totalPrice;
 
-  buttonDelete.onclick = () => {
+  buttonDelete.onclick = async () => {
     list.removeChild(item);
     totalPrice -= parseInt(myObj.price);
-    axios
-      .delete(
-        `https://crudcrud.com/api/e5b80007c4ff40febfa935b7170b50b6/SellerData/${myObj["_id"]}`
-      )
-      .then((err) => console.log(err));
+    try {
+      await axios.delete(
+        `https://crudcrud.com/api/4e52f2f5115c435f81ed5f988298fa4c/SellerData/${myObj["_id"]}`
+      );
+    } catch (err) {
+      console.log(err);
+    }
     document.getElementById("displayPrice").innerHTML = totalPrice;
   };
-}
+};
